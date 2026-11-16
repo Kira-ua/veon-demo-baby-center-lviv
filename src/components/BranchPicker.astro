@@ -1,0 +1,67 @@
+---
+// Branch picker: a real choice between two phones and messengers, no data is sent. Opened by any [data-picker] link (site.ts);
+// without script those links simply go to #branches.
+import Icon from "./Icon.astro";
+import { branches, telegram, instagram } from "../data/client";
+---
+<dialog class="picker" id="picker" aria-labelledby="picker-title" data-rec="R-002,R-003,G-R001,S-R007,M-R001">
+  <div class="picker__body">
+    <div class="picker__head">
+      <h2 id="picker-title">Оберіть філію</h2>
+      <button class="picker__close" type="button" data-picker-close aria-label="Закрити"><Icon name="close" /></button>
+    </div>
+    <ul class="picker__list">
+      {branches.map((b) => (
+        <li class="picker__row">
+          <p><b>«{b.name}»</b><span>{b.street}</span></p>
+          <div class="picker__acts">
+            <a class="btn" href={b.phone}><Icon name="phone" />Подзвонити</a>
+            {b.viber && <a class="btn btn--quiet" href={b.viber}><Icon name="viber" />Viber</a>}
+          </div>
+        </li>
+      ))}
+    </ul>
+    <p class="picker__more">
+      <a class="link" href={telegram.href} rel="noopener"><Icon name="telegram" />Telegram {telegram.label}</a>
+      <a class="link" href={instagram.href} rel="noopener"><Icon name="instagram" />Instagram</a>
+    </p>
+  </div>
+</dialog>
+
+<style>
+  .picker {
+    margin: 0; padding: 0; border: 0; max-width: none; max-height: none;
+    position: fixed; inset: auto 0 0 0; width: 100%;
+    background: var(--color-bg); color: var(--color-text);
+    border-radius: var(--radius-field) var(--radius-field) 0 0; box-shadow: var(--shadow-pop);
+    transition: opacity var(--dur-short) var(--ease-out), transform var(--dur-short) var(--ease-out);
+  }
+  /* Enters from below on phones, from the button on wider screens; leaves faster (site.ts adds .is-closing) */
+  @starting-style { .picker[open] { opacity: 0; transform: translateY(100%); } }
+  .picker.is-closing { opacity: 0; transform: translateY(100%); transition-duration: var(--dur-exit); transition-timing-function: var(--ease-in); }
+  .picker::backdrop { background: var(--color-scrim); }
+  .picker__body { display: grid; gap: var(--space-lg); padding: var(--space-lg) var(--space) var(--space-xl); }
+  .picker__head { display: flex; align-items: center; justify-content: space-between; gap: var(--space-md); }
+  .picker h2 { font-size: var(--text-title); text-wrap: balance; }
+  .picker__close { display: grid; place-items: center; width: var(--tap); height: var(--tap); border: 0; border-radius: var(--radius); background: transparent; color: var(--color-text); cursor: pointer; transition: background-color var(--dur-micro) var(--ease-out); }
+  .picker__close:hover { background: var(--color-bg-2); }
+  .picker__list { display: grid; }
+  .picker__row { display: grid; gap: var(--space-sm); padding-block: var(--space-md); border-top: 1px solid var(--color-rule); }
+  .picker__row p { display: grid; }
+  .picker__row span { color: var(--color-muted); }
+  .picker__acts { display: flex; flex-wrap: wrap; gap: var(--space-xs); }
+  .picker__acts .btn { flex: 1 1 8rem; }
+  .picker__more { display: flex; flex-wrap: wrap; gap: var(--space-xs) var(--space-lg); }
+  .picker__more a { display: inline-flex; align-items: center; gap: var(--space-xs); min-height: var(--tap); }
+  .picker__more :global(svg) { width: 1.25rem; height: 1.25rem; flex-shrink: 0; }
+
+  @media (min-width: 48rem) {
+    /* At the button that opened it (site.ts sets --x and --y) */
+    .picker { inset: var(--y, 6rem) auto auto var(--x, 50%); width: 26rem; border-radius: var(--radius-field); }
+    @starting-style { .picker[open] { opacity: 0; transform: translateY(-8px); } }
+    .picker.is-closing { transform: translateY(-8px); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .picker, .picker.is-closing { transition: none; }
+  }
+</style>

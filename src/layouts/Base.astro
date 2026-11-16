@@ -1,0 +1,47 @@
+---
+// Self-hosted fonts (cyrillic + latin subsets only, font-display: swap from @fontsource).
+import "@fontsource/geologica/cyrillic-800.css";
+import "@fontsource/geologica/latin-800.css";
+import "@fontsource/onest/cyrillic-400.css";
+import "@fontsource/onest/latin-400.css";
+import "@fontsource/onest/cyrillic-600.css";
+import "@fontsource/onest/latin-600.css";
+import onestBody from "@fontsource/onest/files/onest-cyrillic-400-normal.woff2?url";
+import "../styles/tokens.css";
+import "../styles/global.css";
+import "../styles/site.css";
+
+interface Props { lang: string; title: string; description: string; canonical?: string; }
+const { lang, title, description, canonical } = Astro.props;
+---
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <script is:inline>document.documentElement.classList.add("js")</script>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    {canonical && <link rel="canonical" href={canonical} />}
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:locale" content="uk_UA" />
+    <meta name="theme-color" content="#F6F7FB" />
+    <meta name="robots" content="noindex" />
+    <link rel="icon" type="image/png" href={`${import.meta.env.BASE_URL.replace(/\/?$/, "/")}favicon.png`} />
+    <link rel="preload" href={onestBody} as="font" type="font/woff2" crossorigin />
+    <slot name="head" />
+    <style is:global>
+      html { overflow-x: clip; }
+      body { overflow-x: clip; }
+    </style>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">{lang.startsWith("uk") ? "До змісту" : lang.startsWith("ru") ? "К содержанию" : "Skip to content"}</a>
+    <slot name="header" />
+    <main id="main"><slot /></main>
+    <slot name="footer" />
+    <slot name="end" />
+    <script src="../scripts/site.ts"></script>
+  </body>
+</html>

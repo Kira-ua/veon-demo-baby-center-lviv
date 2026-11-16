@@ -1,0 +1,79 @@
+/* Hallmark · shape: age ruler over colour fields · genre: playful · theme: custom · job: book · idea: "Лінійка росту: п'ять кольорових літер «Друзі» стають шкалою віку від 1 до 7" · vibe: "ясно, яскраво, по-дорослому чесно, для батьків"
+ * paper: #F6F7FB · accent: full palette (#2C4AA3, #F7A823, #8CC63F, #29ABE2, #C7321F) · display: Geologica · body: Onest · hero: left axis, H1 over a full-width age ruler 1 to 7, one action that opens the branch picker · nav: logo left, five anchors, Записатися opens branch picker, colour strip of the current section · footer: one band, two branches, future links, © · imagery: client photos (two branch rooms) · signature: the age ruler in the logo's colours, each age a link to its own colour field
+ * axes: light/geometric-sans/chromatic-blue · posture: full-palette · contrast: pass · fold: pass · v2.0.0 */
+/* Hallmark · pre-emit critique: P4 H4 E4 S4 R4 V4 · weakest: imagery, the client's photos are 366px wide, so they stay at source size under the addresses and type carries the page */
+/* Hallmark · answered F4 · .btn--field is the same primary action set on the colour fields (paper on the age, blue and red fields), concept 8.10 */
+/* Hallmark · waive 23 · .strip span is a 4px line under the header, under 1% of the viewport · full-palette posture: it shows the colour of the current section (concept 8.6) */
+/* Hallmark · waive 59 · 104px between #top and #programs at 1440 · the ruler's ranges are anchors to the age fields right below; review-finish.md asked to halve this gap so the ruler and its fields read as one */
+/* Client design tokens from design/concept.md (veon-concept: colors, fonts) — one system for the whole site. */
+:root {
+  /* Paper and ink */
+  --color-bg: #F6F7FB;
+  --color-bg-2: #ECEFF8;
+  --color-text: #151C3D;
+  --color-muted: #4B5372;
+  --color-rule: #D5DAE8;
+  /* Five letters of the logo, one job each */
+  --color-accent: #2C4AA3;        /* «Д» — primary button, links, kindergarten field */
+  --color-accent-hover: #233D8A;  /* one step darker for hover */
+  --color-accent-ink: #F6F7FB;    /* text on the blue «Д» */
+  --color-age-1: #8CC63F;         /* «у» — 1–3 роки */
+  --color-age-3: #F7A823;         /* «р» — 3–5 років */
+  --color-age-5: #29ABE2;         /* «з» — 5–7 років, «Дошколярик» */
+  --color-party: #C7321F;         /* «і» — свята і аніматори */
+  --color-on-field: #151C3D;      /* text on the three age fields */
+  --color-focus: #151C3D;
+  --color-focus-on-dark: #F6F7FB;
+  --color-scrim: color-mix(in srgb, #151C3D 40%, transparent);
+  --shadow-pop: 0 1px 2px color-mix(in srgb, #151C3D 6%, transparent), 0 0 0 1px color-mix(in srgb, #151C3D 8%, transparent);
+
+  /* Type */
+  --font-display: "Geologica", system-ui, sans-serif;
+  --font-body: "Onest", system-ui, sans-serif;
+  --text-display: clamp(2.5rem, 1.2rem + 5.2vw, 5.5rem);   /* 40 → 88 */
+  --text-section: clamp(2rem, 1.4rem + 2.4vw, 3rem);        /* 32 → 48 */
+  --text-title: clamp(1.375rem, 1.15rem + 0.9vw, 1.75rem);  /* 22 → 28 */
+  --text-lead: clamp(1.125rem, 1.05rem + 0.3vw, 1.25rem);   /* 18 → 20 */
+  --text-md: clamp(1rem, 0.97rem + 0.12vw, 1.0625rem);      /* 16 → 17 */
+  --text-sm: 0.875rem;                                      /* 14 */
+  --text-age: clamp(5rem, 12vw, 10rem);                     /* the one graphic numeral */
+
+  /* Space: 4 · 8 · 12 · 16 · 24 · 40 · 64 · 96 · 144 */
+  --space-2xs: 0.25rem;
+  --space-xs: 0.5rem;
+  --space-sm: 0.75rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2.5rem;
+  --space-2xl: 4rem;
+  --space-3xl: 6rem;
+  --space-4xl: 9rem;
+  --section-gap: clamp(4rem, 2rem + 7vw, 9rem);
+  --field-pad: clamp(2.5rem, 1rem + 5vw, 6rem);
+  --gap: clamp(1rem, 0.7rem + 0.8vw, 1.5rem);
+  --space: clamp(1.25rem, 5vw, 7.5rem);   /* page gutter */
+  --container: 1360px;
+  --header-h: 4.75rem;
+  --bar-h: 4.5rem;
+  /* Breakpoints (media queries cannot read custom properties): md 48rem = 768px, lg 64rem = 1024px */
+
+  /* Shape */
+  --radius: 14px;
+  --radius-field: 24px;
+  --radius-photo: min(1vw, 24px);
+  --tap: 48px;
+
+  /* Motion */
+  --ease-out: cubic-bezier(.2, .7, .2, 1);
+  --ease-in: cubic-bezier(.5, 0, .75, 0);
+  --dur-micro: 120ms;
+  --dur-short: 220ms;
+  --dur-exit: 160ms;
+  --dur-long: 420ms;
+  --dur: 600ms;
+
+  /* Layers */
+  --z-bar: 200;
+  --z-nav: 300;
+  --z-tooltip: 600;
+}

@@ -1,0 +1,66 @@
+---
+import Section from "./Section.astro";
+import FutureLink from "./FutureLink.astro";
+import { passes, futureNote } from "../data/client";
+---
+<Section id="prices" rec="R-005" class="prices" tone="accent">
+  <div class="container prices__grid">
+    <div class="prices__head">
+      <h2>Перше заняття 0 грн, разове 350 грн</h2>
+      <p class="lead">Абонементи на 4–16 занять, індивідуальні заняття і логопед.</p>
+      <FutureLink note={futureNote}>Повний прайс</FutureLink>
+    </div>
+    <div class="prices__rows">
+      <div class="row row--free">
+        <p class="row__name">Перше пробне заняття <span class="row__tag">безкоштовно</span></p>
+        <p class="row__price"><span class="num">0</span><span class="cur">&nbsp;грн</span></p>
+      </div>
+      <div class="row">
+        <p class="row__name">Разове заняття</p>
+        <p class="row__price"><span class="num">350</span><span class="cur">&nbsp;грн</span></p>
+      </div>
+      <div class="row row--passes">
+        <p class="row__name">Абонемент</p>
+        <ul class="passes">
+          {passes.map((p) => (
+            <li><span class="passes__count">{p.count}&nbsp;{p.count === "4" ? "заняття" : "занять"}</span><span class="passes__price"><span class="num">{p.price}</span><span class="cur">&nbsp;грн</span></span></li>
+          ))}
+        </ul>
+      </div>
+      <div class="row">
+        <p class="row__name">Індивідуальне заняття, 1&nbsp;година</p>
+        <p class="row__price"><span class="num">450</span><span class="cur">&nbsp;грн</span></p>
+      </div>
+      <div class="row">
+        <p class="row__name">Логопед, 45&nbsp;хвилин</p>
+        <p class="row__price"><span class="num">450</span><span class="cur">&nbsp;грн</span></p>
+      </div>
+    </div>
+  </div>
+</Section>
+
+<style>
+  .prices { background: var(--color-bg-2); padding-block: var(--section-gap); }
+  .prices__grid { display: grid; gap: var(--space-2xl); }
+  .prices__head { display: grid; gap: var(--space-md); align-content: start; justify-items: start; }
+  .prices__rows { display: grid; border-top: 2px solid var(--color-text); }
+  .row { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: baseline; gap: var(--space-md); padding-block: var(--space-lg); border-bottom: 1px solid var(--color-rule); }
+  .row__name { font-size: var(--text-lead); font-weight: 600; }
+  .row__price { font-family: var(--font-display); font-weight: 800; font-size: var(--text-title); line-height: 1; white-space: nowrap; text-align: right; }
+  .row__tag { display: block; font-weight: 400; font-size: var(--text-md); color: var(--color-muted); }
+  .row--passes { grid-template-columns: minmax(0, 1fr); }
+  .passes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-md) var(--gap); }
+  .passes li { display: grid; gap: var(--space-2xs); }
+  .passes__count { font-size: var(--text-md); color: var(--color-muted); }
+  .passes__price { font-family: var(--font-display); font-weight: 800; font-size: var(--text-title); line-height: 1; white-space: nowrap; }
+
+  @media (min-width: 48rem) {
+    .row__price, .passes__price { font-size: var(--text-section); }
+    .passes { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  }
+  @media (min-width: 64rem) {
+    .prices__grid { grid-template-columns: repeat(12, minmax(0, 1fr)); gap: var(--gap); }
+    .prices__head { grid-column: 1 / 5; position: sticky; top: calc(var(--header-h) + var(--space-xl)); }
+    .prices__rows { grid-column: 5 / 13; }
+  }
+</style>

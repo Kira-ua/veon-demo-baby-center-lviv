@@ -1,0 +1,49 @@
+---
+import Section from "./Section.astro";
+---
+<Section id="format" class="format section" tone="text">
+  <div class="container format__grid">
+    <div class="format__text">
+      <h2>Групи до 7 дітей, заняття 50 хвилин</h2>
+      <p class="lead">Заняття проходять в ігровій формі, у маленьких групах.</p>
+      <p>У міні-садку кожен працівник має педагогічну освіту. Монтессорі-заняття веде кваліфікований монтессорі-вчитель.</p>
+    </div>
+    <dl class="figures">
+      <div>
+        <dt>дітей у групі, не більше</dt>
+        <dd><span class="figures__pre">до</span><span class="num">7</span></dd>
+      </div>
+      <div>
+        <dt>хвилин триває одне заняття</dt>
+        <dd><span class="num">50</span></dd>
+      </div>
+      <div data-rec="R-017,S-R008,M-R002">
+        <dt>оцінка на top20.ua за 129 відгуками, 1-ше місце серед центрів розвитку дитини Львова (листопад 2026)</dt>
+        <dd><span class="num">4,8</span></dd>
+      </div>
+    </dl>
+  </div>
+</Section>
+
+<style>
+  .format__grid { display: grid; gap: var(--space-2xl); }
+  .format__text { display: grid; gap: var(--space-md); align-content: start; }
+  .format__text h2 { margin-bottom: var(--space-xs); }
+
+  .figures { display: grid; margin: 0; border-top: 1px solid var(--color-rule); }
+  .figures div { display: grid; grid-template-columns: minmax(0, 6.5rem) minmax(0, 1fr); align-items: center; gap: var(--space-lg); padding-block: var(--space-lg); border-bottom: 1px solid var(--color-rule); }
+  .figures dd { grid-row: 1; margin: 0; display: flex; align-items: baseline; gap: var(--space-xs); font-family: var(--font-display); font-weight: 800; font-size: var(--text-section); line-height: 1; letter-spacing: -0.02em; white-space: nowrap; }
+  .figures__pre { font-size: var(--text-lead); }
+  .figures dt { grid-row: 1; grid-column: 2; font-size: var(--text-md); color: var(--color-muted); max-width: 36ch; }
+  .figures div:first-child dt, .figures div:nth-child(2) dt { color: var(--color-text); }
+
+  @media (min-width: 48rem) {
+    .figures div { grid-template-columns: minmax(0, 14rem) minmax(0, 1fr); }
+    .figures dd { font-size: var(--text-display); }
+  }
+  @media (min-width: 64rem) {
+    .format__grid { grid-template-columns: repeat(12, minmax(0, 1fr)); gap: var(--gap); }
+    .format__text { grid-column: 1 / 6; }
+    .figures { grid-column: 7 / 13; }
+  }
+</style>

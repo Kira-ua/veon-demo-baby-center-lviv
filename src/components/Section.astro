@@ -1,0 +1,9 @@
+---
+// Section shell: id from the veon-concept `sections` list, optional data-rec link to recommendations,
+// optional tone (colour of the strip under the header while this section is in view).
+interface Props { id: string; rec?: string; class?: string; label?: string; tone?: string; }
+const { id, rec, class: cls, label, tone } = Astro.props;
+---
+<section id={id} data-rec={rec} class={cls} aria-label={label} data-tone={tone}>
+  <slot />
+</section>

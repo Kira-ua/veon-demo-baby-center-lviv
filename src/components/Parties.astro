@@ -1,0 +1,61 @@
+---
+import Section from "./Section.astro";
+import FutureLink from "./FutureLink.astro";
+import { shows, workshops, futureNote } from "../data/client";
+---
+<Section id="parties" class="parties" tone="party">
+  <div class="container">
+    <div class="parties__field on-dark">
+      <h2>Дні народження і аніматори</h2>
+      <div class="parties__formats">
+        <div class="format-item">
+          <h3>Свято в центрі</h3>
+          <p class="format-item__price"><span class="num">350</span><span class="cur">&nbsp;грн/год</span></p>
+          <p>Оренда приміщення, якщо свято не за пакетом.</p>
+        </div>
+        <div class="format-item format-item--wide">
+          <h3>Аніматори на виїзд по Львову</h3>
+          <p class="format-item__price"><span class="num">2500</span><span class="cur">&nbsp;грн/год</span></p>
+          <p>Два аніматори, до 10 дітей. Транспорт за рахунок замовника, від 2,5 години — за рахунок центру.</p>
+        </div>
+      </div>
+      <div class="parties__extra">
+        <p><b>Шоу і додаткові послуги:</b> {shows}.</p>
+        <p><b>Майстер-класи:</b> {workshops}.</p>
+      </div>
+      <div class="actions parties__actions">
+        <a class="btn btn--field" href="#branches" data-picker>Замовити свято</a>
+        <FutureLink note={futureNote}>Програми свят</FutureLink>
+        <FutureLink note={futureNote}>Додаткові послуги</FutureLink>
+        <FutureLink note={futureNote}>Майстер-класи</FutureLink>
+      </div>
+    </div>
+  </div>
+</Section>
+
+<style>
+  .parties { padding-block: var(--section-gap) 0; }
+  .parties__field {
+    display: grid; gap: var(--space-2xl);
+    padding: var(--field-pad) clamp(var(--space-lg), 4vw, var(--space-3xl));
+    border-radius: var(--radius-field);
+    background: var(--color-party); color: var(--color-accent-ink);
+    --line: color-mix(in srgb, var(--color-accent-ink) 40%, transparent);
+  }
+  .parties__formats { display: grid; gap: var(--space-xl); }
+  .format-item { display: grid; gap: var(--space-sm); align-content: start; padding-top: var(--space-lg); border-top: 1px solid var(--line); }
+  .format-item__price { font-family: var(--font-display); font-weight: 800; font-size: var(--text-section); line-height: 1; white-space: nowrap; }
+  .parties__extra { display: grid; gap: var(--space-md); }
+  .parties__extra p { max-width: 70ch; }
+
+  @media (min-width: 64rem) {
+    .parties__field { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gap); }
+    .parties__field h2 { grid-column: 1 / 8; }
+    .parties__formats { grid-column: 1 / 13; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: var(--gap); }
+    .format-item { grid-column: 1 / 6; }
+    .format-item--wide { grid-column: 6 / 13; }
+    .format-item__price { font-size: var(--text-display); }
+    .parties__extra { grid-column: 1 / 9; }
+    .parties__actions { grid-column: 1 / 13; }
+  }
+</style>

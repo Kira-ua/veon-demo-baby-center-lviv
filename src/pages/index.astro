@@ -1,0 +1,44 @@
+---
+import Base from "../layouts/Base.astro";
+import Header from "../components/Header.astro";
+import Hero from "../components/Hero.astro";
+import Programs from "../components/Programs.astro";
+import Format from "../components/Format.astro";
+import Kindergarten from "../components/Kindergarten.astro";
+import Prices from "../components/Prices.astro";
+import Parties from "../components/Parties.astro";
+import Branches from "../components/Branches.astro";
+import Footer from "../components/Footer.astro";
+import BranchPicker from "../components/BranchPicker.astro";
+import BottomBar from "../components/BottomBar.astro";
+import { branches } from "../data/client";
+
+const title = "Дитячий центр «Друзі» — заняття для дітей 1–7 років, Львів";
+const description = "Міні-групи до 7 дітей, міні-садок, підготовка до школи «Дошколярик», свята. Дві філії: Саксаганського, 14 і Ставова, 7В. Перше заняття безкоштовне.";
+
+// Schema.org for the two branches: name, address, phone only (no hours until the client confirms them, W-F004).
+const ld = {
+  "@context": "https://schema.org",
+  "@graph": branches.map((b) => ({
+    "@type": "ChildCare",
+    name: `Дитячий центр «Друзі», філія «${b.name}»`,
+    telephone: b.phone.replace("tel:", ""),
+    email: b.email,
+    address: { "@type": "PostalAddress", streetAddress: b.street, addressLocality: "Львів", addressCountry: "UA" },
+  })),
+};
+---
+<Base lang="uk" title={title} description={description}>
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(ld)} />
+  <Header slot="header" />
+  <Hero />
+  <Programs />
+  <Format />
+  <Kindergarten />
+  <Prices />
+  <Parties />
+  <Branches />
+  <Footer slot="footer" />
+  <BranchPicker slot="end" />
+  <BottomBar slot="end" />
+</Base>

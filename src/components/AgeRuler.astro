@@ -1,0 +1,95 @@
+---
+// The signature: a ruler of the child's age 1 to 7 in the logo's colours. Each age range is an anchor to its own field in #programs.
+import { ages } from "../data/client";
+const years = [1, 2, 3, 4, 5, 6, 7];
+---
+<nav class="ruler" aria-label="Вік дитини: оберіть, щоб побачити заняття" data-rec="R-014">
+  <ul class="ruler__spans">
+    <li class="ruler__span ruler__span--garden"><a href="#kindergarten">Міні-садок від 4 років</a></li>
+    <li class="ruler__span ruler__span--school"><a href="#age-5-7">«Дошколярик»<span class="ruler__tail">, підготовка до школи</span></a></li>
+  </ul>
+  <ol class="ruler__scale" aria-hidden="true">
+    {years.map((y) => <li>{y}</li>)}
+  </ol>
+  <ul class="ruler__ages">
+    {ages.map((a, i) => (
+      <li style={`--i:${i}`}>
+        <a class={`ruler__age tone-${a.tone}`} href={`#${a.id}`}>
+          <span class="ruler__range"><span class="num">{a.range}</span> <span class="ruler__unit">{a.unit}</span></span>
+          <span class="ruler__items">{a.short}</span>
+        </a>
+      </li>
+    ))}
+  </ul>
+</nav>
+
+<style>
+  .ruler { display: grid; gap: var(--space-sm); }
+  .ruler__spans, .ruler__scale { display: none; }
+
+  .ruler__ages { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-2xs); }
+  .ruler__ages li { display: grid; transform-origin: left center; }
+  .ruler__age {
+    display: grid; align-content: center; gap: var(--space-2xs);
+    min-height: 3.5rem; padding: var(--space-xs) var(--space-sm);
+    border-radius: var(--space-xs); background: var(--tone); color: var(--color-on-field);
+    text-decoration: none;
+    transition: transform var(--dur-micro) var(--ease-out);
+  }
+  .ruler__age:hover { transform: translateY(-1px); }
+  .ruler__age:active { transform: translateY(1px); }
+  .ruler__range { display: grid; font-family: var(--font-display); font-weight: 800; font-size: var(--text-title); line-height: 1; white-space: nowrap; }
+  .ruler__unit { font-family: var(--font-body); font-weight: 600; font-size: var(--text-sm); line-height: 1.3; }
+  .ruler__items { display: none; }
+  .tone-age-1 { --tone: var(--color-age-1); }
+  .tone-age-3 { --tone: var(--color-age-3); }
+  .tone-age-5 { --tone: var(--color-age-5); }
+
+  @media (min-width: 48rem) {
+    .ruler { gap: 0; }
+    /* Six years = six columns; a range runs from one tick to another */
+    .ruler__spans, .ruler__scale, .ruler__ages { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); }
+    .ruler__ages { gap: 0; }
+    .ruler__ages li + li { padding-left: var(--space-2xs); }
+    .ruler__spans { row-gap: var(--space-xs); margin-bottom: var(--space-md); }
+    .ruler__span a {
+      display: flex; align-items: center; min-height: 2.75rem; padding: 0 var(--space-sm);
+      border: 3px solid var(--edge); border-top: 0;
+      border-radius: 0 0 var(--space-2xs) var(--space-2xs);
+      color: var(--color-text); font-weight: 600; text-decoration: none; white-space: nowrap;
+      transition: background-color var(--dur-micro) var(--ease-out);
+    }
+    .ruler__span a:hover { background: var(--color-bg-2); }
+    .ruler__tail { display: none; }
+    .ruler__span--garden { grid-column: 4 / 7; grid-row: 1; --edge: var(--color-accent); }
+    .ruler__span--school { grid-column: 5 / 7; grid-row: 2; --edge: var(--color-age-5); }
+
+    .ruler__scale { position: relative; padding-bottom: var(--space-sm); font-family: var(--font-display); font-weight: 800; font-size: var(--text-section); line-height: 1; }
+    .ruler__scale li { position: relative; padding: 0 0 var(--space-md) var(--space-xs); border-left: 2px solid var(--color-text); }
+    .ruler__scale li:nth-child(7) { position: absolute; right: 0; top: 0; bottom: var(--space-sm); border-left: 0; border-right: 2px solid var(--color-text); padding: 0 var(--space-xs) var(--space-md) 0; }
+    .ruler__age { min-height: 7rem; align-content: space-between; padding: var(--space-md) var(--space-lg) var(--space-lg); border-radius: 0; }
+    .ruler__ages li:first-child .ruler__age { border-radius: var(--space-xs) 0 0 var(--space-xs); }
+    .ruler__ages li:last-child .ruler__age { border-radius: 0 var(--space-xs) var(--space-xs) 0; }
+    .ruler__ages li:nth-child(1) { grid-column: 1 / 3; }
+    .ruler__ages li:nth-child(2) { grid-column: 3 / 5; }
+    .ruler__ages li:nth-child(3) { grid-column: 5 / 7; }
+    .ruler__range { display: block; font-size: var(--text-title); }
+    .ruler__unit { font-family: var(--font-display); font-weight: 800; font-size: var(--text-lead); }
+    .ruler__items { display: block; font-size: var(--text-md); font-weight: 600; line-height: 1.35; }
+  }
+
+  /* Growth: each range grows from its left tick once, after the headline has settled */
+  @keyframes ruler-grow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+  @keyframes ruler-fade { from { opacity: 0; } to { opacity: 1; } }
+  .ruler__ages li { animation: ruler-grow 500ms var(--ease-out) both; animation-delay: calc(240ms + var(--i, 0) * 80ms); }
+  .ruler__ages li > a > * { animation: ruler-fade var(--dur-short) var(--ease-out) both; animation-delay: calc(560ms + var(--i, 0) * 80ms); }
+  @media (min-width: 48rem) {
+    .ruler__ages li { animation-duration: 700ms; }
+    .ruler__ages li > a > * { animation-delay: calc(760ms + var(--i, 0) * 80ms); }
+  }
+  @media (min-width: 64rem) { .ruler__tail { display: inline; } }
+  @media (prefers-reduced-motion: reduce) {
+    .ruler__ages li, .ruler__ages li > a > * { animation: none; }
+    .ruler__age, .ruler__span a { transition: none; }
+  }
+</style>

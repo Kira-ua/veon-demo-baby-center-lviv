@@ -1,0 +1,47 @@
+---
+import AgeRuler from "./AgeRuler.astro";
+---
+<section id="top" class="hero" data-tone="accent">
+  <div class="container hero__inner">
+    <h1 data-rec="R-018,W-R007"><span class="settle" style="--i:0">Заняття для дітей</span> <span class="settle" style="--i:1">від 1 до 7 років у Львові</span></h1>
+    <div class="hero__row">
+      <p class="lead hero__lead settle" style="--i:2">Дві філії: на&nbsp;Саксаганського,&nbsp;14 і на&nbsp;Ставовій,&nbsp;7В.</p>
+      <div class="hero__act settle" style="--i:3">
+        <a class="btn btn--lg" href="#branches" data-picker data-rec="R-001,R-006">Записатися на безкоштовне заняття</a>
+        <p class="hero__free">До 7 дітей у групі, заняття 50 хвилин</p>
+      </div>
+    </div>
+    <AgeRuler />
+  </div>
+</section>
+
+<style>
+  .hero { padding-block: var(--space-xl) var(--space-2xl); }
+  .hero__inner { display: grid; gap: var(--space-lg); }
+  h1 { max-width: 15ch; }
+  .settle { display: inline-block; }
+  .hero__row { display: grid; gap: var(--space-lg); margin-bottom: var(--space-md); }
+  .hero__lead { color: var(--color-muted); max-width: 48ch; }
+  .hero__act { display: grid; gap: var(--space-sm); justify-items: start; }
+  .hero__act .btn { width: 100%; font-size: var(--text-md); padding-inline: var(--space-md); white-space: nowrap; }
+  @media (max-width: 22.5rem) { .hero__act .btn { font-size: var(--text-sm); padding-inline: var(--space-xs); white-space: normal; } }
+  .hero__free { font-weight: 600; }
+
+  @media (min-width: 48rem) {
+    .hero { padding-block: var(--space-2xl); }
+    .hero__inner { gap: var(--space-xl); }
+    h1 { max-width: 20ch; }
+    .hero__act .btn { width: auto; font-size: var(--text-lead); padding-inline: var(--space-xl); }
+  }
+  @media (min-width: 64rem) {
+    .hero__row { grid-template-columns: repeat(12, minmax(0, 1fr)); gap: var(--gap); align-items: center; margin-bottom: var(--space-xl); }
+    .hero__lead { grid-column: 1 / 6; }
+    .hero__act { grid-column: 6 / 13; grid-template-columns: max-content minmax(0, 1fr); align-items: center; gap: var(--space-lg); }
+  }
+
+  /* Settle: the text is already there, it only rises 8px into place once (4px on phones) */
+  .settle { transition: opacity var(--dur) var(--ease-out), transform var(--dur) var(--ease-out); transition-delay: calc(var(--i, 0) * 60ms); }
+  @starting-style { .settle { opacity: 0; transform: translateY(4px); } }
+  @media (min-width: 48rem) { @starting-style { .settle { opacity: 0; transform: translateY(8px); } } }
+  @media (prefers-reduced-motion: reduce) { .settle { transition: none; } }
+</style>

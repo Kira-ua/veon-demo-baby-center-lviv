@@ -1,0 +1,110 @@
+---
+import Section from "./Section.astro";
+import FutureLink from "./FutureLink.astro";
+import { ages, preschool, futureNote } from "../data/client";
+const [a1, a3, a5] = ages;
+---
+<Section id="programs" rec="R-005,M-R002" class="programs">
+  <div class="container programs__head">
+    <h2>Заняття за віком дитини</h2>
+    <p class="lead">Три вікові групи: від Монтессорі для малюків до підготовки до школи.</p>
+  </div>
+
+  <article id={a1.id} class="band tone-age-1 on-field" data-tone="age-1" aria-labelledby={`${a1.id}-h`}>
+    <div class="container band__grid">
+      <h3 id={`${a1.id}-h`} class="band__age"><span class="num">{a1.range}</span> <span class="band__unit">{a1.unit}</span></h3>
+      <div class="band__body">
+        <ul class="band__list">{a1.items.map((x) => <li>{x}</li>)}</ul>
+        <div class="actions">
+          <a class="btn btn--field" href="#branches" data-picker>Записатися</a>
+          <FutureLink note={futureNote}>Детальніше</FutureLink>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <article id={a3.id} class="band tone-age-3 on-field" data-tone="age-3" aria-labelledby={`${a3.id}-h`}>
+    <div class="container band__grid">
+      <h3 id={`${a3.id}-h`} class="band__age"><span class="num">{a3.range}</span> <span class="band__unit">{a3.unit}</span></h3>
+      <div class="band__body">
+        <ul class="band__list band__list--two">{a3.items.map((x) => <li>{x}</li>)}</ul>
+        <p class="band__note">Польська мова для дітей 3,5–6 років у філії «Центр».</p>
+        <div class="actions">
+          <a class="btn btn--field" href="#branches" data-picker>Записатися</a>
+          <FutureLink note={futureNote}>Детальніше</FutureLink>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <article id={a5.id} class="band band--wide tone-age-5 on-field" data-tone="age-5" aria-labelledby={`${a5.id}-h`}>
+    <div class="container band__grid">
+      <h3 id={`${a5.id}-h`} class="band__age"><span class="num">{a5.range}</span> <span class="band__unit">{a5.unit}</span></h3>
+      <div class="band__body">
+        <div class="school">
+          <p class="school__title">«Дошколярик» і English: підготовка до школи</p>
+          <dl class="school__prices">
+            {preschool.map((p) => (
+              <div><dt>{p.label}</dt><dd><span class="num">{p.price}</span><span class="cur">&nbsp;грн</span></dd></div>
+            ))}
+          </dl>
+        </div>
+        <ul class="band__list band__list--two">{a5.items.map((x) => <li>{x}</li>)}</ul>
+        <div class="actions">
+          <a class="btn btn--field" href="#branches" data-picker>Записатися</a>
+          <FutureLink note={futureNote}>Детальніше</FutureLink>
+        </div>
+      </div>
+      <div class="programs__more">
+        <p>Також у центрі: логопед, психолог і курс креативної педагогіки.</p>
+        <div class="actions">
+          <a class="btn btn--field" href="#branches" data-picker>Записатися</a>
+          <FutureLink note={futureNote}>Консультації спеціалістів</FutureLink>
+          <FutureLink note={futureNote}>Розклад занять</FutureLink>
+        </div>
+      </div>
+    </div>
+  </article>
+</Section>
+
+<style>
+  .programs { padding-top: var(--space-xl); }
+  .programs__head { display: grid; gap: var(--space-md); margin-bottom: var(--space-2xl); }
+
+  .band { background: var(--tone); color: var(--color-on-field); padding-block: var(--space-2xl); --line: color-mix(in srgb, var(--color-on-field) 28%, transparent); }
+  .tone-age-1 { --tone: var(--color-age-1); }
+  .tone-age-3 { --tone: var(--color-age-3); }
+  .tone-age-5 { --tone: var(--color-age-5); }
+  .band__grid { display: grid; gap: var(--space-xl); }
+  .band__age { display: flex; align-items: baseline; flex-wrap: wrap; gap: 0 var(--space-md); max-width: none; font-size: var(--text-age); line-height: .9; letter-spacing: -0.03em; }
+  .band__unit { font-size: var(--text-section); letter-spacing: -0.02em; }
+  .band__body { display: grid; gap: var(--space-xl); align-content: start; }
+  .band__list { display: grid; border-top: 1px solid var(--line); }
+  .band__list li { padding-block: var(--space-sm); border-bottom: 1px solid var(--line); font-size: var(--text-lead); font-weight: 600; }
+  .band__note { font-size: var(--text-md); }
+
+  .school { display: grid; gap: var(--space-md); padding-bottom: var(--space-lg); border-bottom: 2px solid var(--color-on-field); }
+  .school__title { font-family: var(--font-display); font-weight: 800; font-size: var(--text-title); line-height: 1.15; }
+  .school__prices { display: grid; gap: var(--space-md); margin: 0; }
+  .school__prices div { display: grid; gap: var(--space-2xs); }
+  .school__prices dt { font-size: var(--text-md); }
+  .school__prices dd { margin: 0; font-family: var(--font-display); font-weight: 800; font-size: var(--text-section); line-height: 1; }
+
+  .programs__more { display: grid; gap: var(--space-md); padding-top: var(--space-xl); border-top: 2px solid var(--color-on-field); }
+  .programs__more p { font-size: var(--text-lead); }
+
+  @media (min-width: 48rem) {
+    .band__list--two { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--gap); }
+    .school__prices { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--gap); }
+  }
+  @media (min-width: 64rem) {
+    .band { padding-block: var(--space-3xl); }
+    .band__grid { grid-template-columns: repeat(12, minmax(0, 1fr)); gap: var(--gap); align-items: start; }
+    .band__age { grid-column: 1 / 6; flex-direction: column; gap: var(--space-xs); }
+    .band__body { grid-column: 6 / 13; }
+    .band--wide .band__body { grid-column: 6 / 13; }
+    .programs__more { grid-column: 1 / 13; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: var(--gap); align-items: center; margin-top: var(--space-xl); }
+    .programs__more p { grid-column: 1 / 6; }
+    .programs__more .actions { grid-column: 6 / 13; }
+  }
+</style>

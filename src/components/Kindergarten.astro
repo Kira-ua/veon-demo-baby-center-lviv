@@ -1,0 +1,57 @@
+---
+import Section from "./Section.astro";
+import FutureLink from "./FutureLink.astro";
+import { kindergartenPrices, futureNote } from "../data/client";
+---
+<Section id="kindergarten" class="garden" tone="accent">
+  <div class="container">
+    <div class="garden__field on-dark">
+      <div class="garden__main">
+        <h2>Міні-садок неповного дня</h2>
+        <p class="garden__time num">10:00–14:00</p>
+        <p class="lead">Для дітей від 4 років. Кожен працівник міні-садка має педагогічну освіту.</p>
+      </div>
+      <div class="garden__side">
+        <dl class="garden__prices">
+          {kindergartenPrices.map((p) => (
+            <div><dt>{p.label}</dt><dd><span class="num">{p.price}</span><span class="cur">&nbsp;грн</span></dd></div>
+          ))}
+        </dl>
+        <div class="actions">
+          <a class="btn btn--field" href="#branches" data-picker>Записатися в міні-садок</a>
+          <FutureLink note={futureNote}>Про міні-садок</FutureLink>
+        </div>
+      </div>
+    </div>
+  </div>
+</Section>
+
+<style>
+  .garden { padding-bottom: var(--section-gap); }
+  .garden__field {
+    display: grid; gap: var(--space-2xl);
+    padding: var(--field-pad) clamp(var(--space-lg), 4vw, var(--space-3xl));
+    border-radius: var(--radius-field);
+    background: var(--color-accent); color: var(--color-accent-ink);
+  }
+  .garden__main { display: grid; gap: var(--space-lg); align-content: start; }
+  .garden__time { font-family: var(--font-display); font-weight: 800; font-size: var(--text-display); line-height: 1; letter-spacing: -0.02em; white-space: nowrap; }
+  .garden__side { display: grid; gap: var(--space-xl); align-content: end; }
+  .garden__prices { --line: color-mix(in srgb, var(--color-accent-ink) 40%, transparent); display: grid; margin: 0; border-top: 1px solid var(--line); }
+  .garden__prices div { display: flex; justify-content: space-between; align-items: baseline; gap: var(--space-md); padding-block: var(--space-sm); border-bottom: 1px solid var(--line); }
+  .garden__prices dt { font-size: var(--text-md); }
+  .garden__prices dd { margin: 0; font-family: var(--font-display); font-weight: 800; font-size: var(--text-title); line-height: 1.1; white-space: nowrap; }
+
+  @media (max-width: 22.5rem) { .garden__time { font-size: var(--text-section); } }
+  @media (min-width: 48rem) {
+    .garden__prices { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .garden__prices div { display: grid; justify-content: stretch; gap: var(--space-2xs); padding-block: var(--space-md) 0; border-bottom: 0; }
+    .garden__prices div + div { padding-left: var(--space-md); border-left: 1px solid var(--line); }
+  }
+  @media (min-width: 64rem) {
+    .garden__field { grid-template-columns: repeat(12, minmax(0, 1fr)); gap: var(--gap); }
+    .garden__main { grid-column: 1 / 7; }
+    .garden__side { grid-column: 7 / 13; }
+    .garden__prices dd { font-size: var(--text-section); }
+  }
+</style>

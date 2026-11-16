@@ -1,0 +1,60 @@
+---
+import { Image } from "astro:assets";
+import logo from "../assets/logo-druzi.png";
+import FutureLink from "./FutureLink.astro";
+import Icon from "./Icon.astro";
+import { branches, instagram, futureNote } from "../data/client";
+const future = ["Заняття", "Розклад", "Міні-садок", "Свята", "Майстер-класи", "Консультації", "Про нас", "Контакти"];
+---
+<footer id="footer" class="footer">
+  <div class="container footer__grid">
+    <div class="footer__brand">
+      <a class="footer__logo" href="#top">
+        <Image src={logo} alt="Друзі, дитячий центр розвитку: на початок сторінки" width={130} height={50} densities={[1, 2]} loading="lazy" />
+      </a>
+      <p>Дитячий центр розвитку «Друзі», Львів</p>
+    </div>
+    <ul class="footer__branches">
+      {branches.map((b) => (
+        <li>
+          <span class="footer__label">Філія «{b.name}»</span>
+          <span>{b.street}</span>
+          <a class="link num" href={b.phone}><span class="visually-hidden">Телефон </span>{b.phoneLabel}</a>
+        </li>
+      ))}
+    </ul>
+    <div class="footer__more">
+      <a class="link footer__ig" href={instagram.href} rel="noopener"><Icon name="instagram" />Instagram</a>
+      <ul class="footer__future">
+        {future.map((f) => <li><FutureLink note={futureNote}>{f}</FutureLink></li>)}
+      </ul>
+    </div>
+    <p class="footer__legal small">© 2014–2026 Дитячий центр «Друзі»</p>
+  </div>
+</footer>
+
+<style>
+  .footer { background: var(--color-bg-2); border-top: 1px solid var(--color-rule); padding-block: var(--space-2xl) var(--space-xl); }
+  .footer__grid { display: grid; gap: var(--space-xl); }
+  .footer__brand { display: grid; gap: var(--space-sm); justify-items: start; align-content: start; }
+  .footer__logo { display: inline-flex; border-radius: var(--space-2xs); }
+  .footer__logo :global(img) { width: 8.125rem; height: auto; align-self: flex-start; }
+  .footer__branches { display: grid; gap: var(--space-lg); }
+  .footer__branches li { display: grid; gap: var(--space-2xs); align-content: start; }
+  .footer__branches .link { justify-self: start; display: inline-flex; align-items: center; min-height: var(--tap); }
+  .footer__label { font-weight: 600; }
+  .footer__more { display: grid; gap: var(--space-md); align-content: start; }
+  .footer__ig { display: inline-flex; align-items: center; gap: var(--space-xs); min-height: var(--tap); justify-self: start; }
+  .footer__ig :global(svg) { width: 1.25rem; height: 1.25rem; }
+  .footer__future { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 var(--space-lg); }
+  .footer__future :global(.future-link) { font-weight: 400; }
+  .footer__legal { max-width: none; color: var(--color-muted); padding-top: var(--space-lg); border-top: 1px solid var(--color-rule); }
+
+  @media (min-width: 64rem) {
+    .footer__grid { grid-template-columns: repeat(12, minmax(0, 1fr)); gap: var(--space-xl) var(--gap); }
+    .footer__brand { grid-column: 1 / 4; }
+    .footer__branches { grid-column: 4 / 9; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--gap); }
+    .footer__more { grid-column: 9 / 13; }
+    .footer__legal { grid-column: 1 / 13; }
+  }
+</style>

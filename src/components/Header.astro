@@ -1,0 +1,110 @@
+---
+import { Image } from "astro:assets";
+import logo from "../assets/logo-druzi.png";
+import Icon from "./Icon.astro";
+import { branches } from "../data/client";
+
+const links = [
+  { href: "#programs", label: "Заняття" },
+  { href: "#kindergarten", label: "Міні-садок" },
+  { href: "#prices", label: "Вартість" },
+  { href: "#parties", label: "Свята" },
+  { href: "#branches", label: "Філії" },
+];
+---
+<header id="header" class="header">
+  <div class="container header__bar">
+    <a class="header__logo" href="#top">
+      <Image src={logo} alt="Друзі, дитячий центр розвитку: на початок сторінки" width={130} height={50} densities={[1, 2]} loading="eager" fetchpriority="high" />
+    </a>
+    <nav class="header__nav" aria-label="Розділи сторінки" data-rec="R-007">
+      <ul>
+        {links.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
+      </ul>
+    </nav>
+    <a class="btn header__cta" href="#branches" data-picker data-rec="R-006">Записатися</a>
+    <details class="menu" data-menu>
+      <summary class="menu__toggle" aria-label="Меню">
+        <Icon name="menu" class="menu__open" />
+        <Icon name="close" class="menu__close" />
+      </summary>
+      <div class="menu__panel">
+        <ul class="menu__links">
+          {links.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
+        </ul>
+        <ul class="menu__phones">
+          {branches.map((b) => (
+            <li>
+              <a href={b.phone}>
+                <Icon name="phone" />
+                <span><span class="menu__phone num"><span class="visually-hidden">Телефон </span>{b.phoneLabel}</span><span class="small">Філія «{b.name}», {b.street}</span></span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </details>
+  </div>
+  <div class="strip" aria-hidden="true" data-strip><span></span><span></span></div>
+</header>
+
+<style>
+  .header { position: sticky; top: 0; z-index: var(--z-nav); background: var(--color-bg); }
+  .header__bar { display: flex; align-items: center; gap: var(--space-sm); min-height: calc(var(--header-h) - 4px); }
+  .header__logo { display: inline-flex; flex-shrink: 0; margin-right: auto; border-radius: var(--space-2xs); }
+  .header__logo :global(img) { width: 6.5rem; height: auto; }
+  .header__nav { display: none; }
+  .header__nav ul { display: flex; gap: var(--space-2xs); }
+  .header__nav a, .menu__links a {
+    display: inline-flex; align-items: center; min-height: var(--tap); padding: 0 var(--space-sm);
+    border-radius: var(--radius); color: var(--color-text); font-weight: 600; text-decoration: none;
+    transition: background-color var(--dur-micro) var(--ease-out);
+  }
+  .header__nav a:hover, .menu__links a:hover { background: var(--color-bg-2); }
+  .header__cta { padding-inline: var(--space-md); }
+  @media (max-width: 22.5rem) {
+    .header__bar { gap: var(--space-xs); }
+    .header__logo :global(img) { width: 5.5rem; }
+    .header__cta { padding-inline: var(--space-sm); font-size: var(--text-sm); }
+  }
+
+  .menu { position: static; }
+  .menu__toggle { display: grid; place-items: center; width: var(--tap); height: var(--tap); border-radius: var(--radius); cursor: pointer; list-style: none; color: var(--color-text); transition: background-color var(--dur-micro) var(--ease-out); }
+  .menu__toggle::-webkit-details-marker { display: none; }
+  .menu__toggle:hover { background: var(--color-bg-2); }
+  .menu :global(.menu__close) { display: none; }
+  .menu[open] :global(.menu__open) { display: none; }
+  .menu[open] :global(.menu__close) { display: block; }
+  .menu__panel {
+    position: absolute; left: 0; right: 0; top: 100%;
+    display: grid; gap: var(--space-lg); padding: var(--space-lg) var(--space) var(--space-xl);
+    background: var(--color-bg); border-bottom: 1px solid var(--color-rule);
+    max-height: calc(100dvh - var(--header-h)); overflow-y: auto;
+  }
+  .menu:not([open]) .menu__panel { display: none; }
+  .menu__links { display: grid; }
+  .menu__links a { font-family: var(--font-display); font-weight: 800; font-size: var(--text-title); padding-inline: 0; width: 100%; }
+  .menu__phones { display: grid; gap: var(--space-xs); padding-top: var(--space-lg); border-top: 1px solid var(--color-rule); }
+  .menu__phones a { display: flex; align-items: center; gap: var(--space-sm); min-height: 3.5rem; color: var(--color-text); text-decoration: none; }
+  .menu__phones a > span { display: grid; }
+  .menu__phones :global(svg) { width: 1.5rem; height: 1.5rem; flex-shrink: 0; color: var(--color-accent); }
+  .menu__phone { font-weight: 600; font-size: var(--text-lead); }
+  .menu__phones .small { color: var(--color-muted); }
+
+  @media (min-width: 64rem) {
+    .header__logo :global(img) { width: 8.125rem; }
+    .header__nav { display: block; }
+    .menu { display: none; }
+    .header__bar { gap: var(--space-lg); }
+    .header__cta { padding-inline: var(--space-lg); }
+  }
+
+  /* Colour of the current section: two layers cross-fade (site.ts sets --a / --b) */
+  .strip { position: relative; height: 4px; }
+  .strip span { position: absolute; inset: 0; background: var(--a, var(--color-accent)); transition: opacity var(--dur-short) var(--ease-out); }
+  .strip span + span { background: var(--b, var(--color-accent)); opacity: 0; }
+  .strip.is-b span + span { opacity: 1; }
+  @media (prefers-reduced-motion: reduce) {
+    .strip span, .header__nav a, .menu__links a, .menu__toggle { transition: none; }
+  }
+</style>
